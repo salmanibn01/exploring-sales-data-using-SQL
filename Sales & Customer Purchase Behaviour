@@ -1,1 +1,84 @@
+-- Inspectign the data
+SELECT  *
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
 
+-- Cheching unique values
+SELECT  DISTINCT STATUS
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+SELECT  DISTINCT YEAR_ID
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+SELECT  DISTINCT PRODUCTLINE
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+SELECT  DISTINCT DEALSIZE
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+SELECT  DISTINCT COUNTRY
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+SELECT  DISTINCT TERRITORY
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+## Analysis
+-- Starting with Grouping sales by product iline
+SELECT PRODUCTLINE, 
+SUM (SALES) as Revenue
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+GROUP BY PRODUCTLINE
+ORDER BY Revenue DESC
+
+-- Revenue by year
+SELECT YEAR_ID, 
+SUM (SALES) as Revenue
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+GROUP BY YEAR_ID
+ORDER BY Revenue DESC
+
+-- Months of operation in mentioned years
+SELECT DISTINCT MONTH_ID  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2003
+SELECT DISTINCT MONTH_ID  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2004
+SELECT DISTINCT MONTH_ID  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2005
+
+-- Revenue by deal size
+SELECT DEALSIZE,
+SUM (SALES) as Revenue
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+GROUP BY DEALSIZE
+ORDER BY Revenue DESC
+
+-- best month for revenue (2003, 2004, 2005) 
+SELECT MONTH_ID, sum (SALES) as revenue  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2003
+GROUP BY MONTH_ID
+ORDER BY Revenue desc
+
+-- best month for revenue (2004) 
+SELECT MONTH_ID, sum (SALES) as revenue  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2004
+GROUP BY MONTH_ID
+ORDER BY Revenue desc
+
+-- best month for revenue (2005) 
+SELECT MONTH_ID, sum (SALES) as revenue  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2005
+GROUP BY MONTH_ID
+ORDER BY Revenue desc
+
+-- best months for revenue (2003, 2004, 2005) 
+SELECT MONTH_ID, sum (SALES) as revenue  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2005
+GROUP BY MONTH_ID
+ORDER BY Revenue desc
+
+-- The product that sold highest in the months
+SELECT MONTH_ID, PRODUCTLINE, sum (SALES) as revenue, COUNT (ORDERNUMBER) as Order_number  
+FROM `exploring-sales-data-using-sql.sales_dataset.sales_table` 
+WHERE YEAR_ID = 2003
+GROUP BY MONTH_ID, PRODUCTLINE
+ORDER BY Revenue desc
